@@ -14,8 +14,8 @@ WORKDIR /next
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with legacy peer deps
+RUN npm install --legacy-peer-deps
 
 # Copy the wait-for-db.sh script
 COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
@@ -28,7 +28,6 @@ COPY entrypoint.sh /
 # Ensure correct line endings after these files are edited by windows
 RUN apk add --no-cache dos2unix netcat-openbsd \
     && dos2unix /entrypoint.sh
-
 
 # Expose the port the app will run on
 EXPOSE 3000
